@@ -35,12 +35,12 @@ describe Oystercard do
     it 'charges penalty when not touched in' do
       card.top_up(10)
       expect { card.touch_out(out) }.to raise_error 'You did not touch in'
-      expect(card.balance).to eq (4) 
+      expect(card.balance).to eq (4)
     end
 
     it 'charges minimum fare' do
       card.top_up(10); card.touch_in(enter)
-      expect { card.touch_out(out) }.to change { card.balance }.by -Oystercard::FARE
+      expect { card.touch_out(out) }.to change { card.balance }.by -card.trip.fare
     end
 
   end

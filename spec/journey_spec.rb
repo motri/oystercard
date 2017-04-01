@@ -3,14 +3,10 @@ require 'oystercard'
 
 describe Journey do
 
-  let(:card) { Oystercard.new } # let(:card){double: card}
+  let(:card) { Oystercard.new }
+  #let(:card){double: card}
   before do
     @min = Oystercard::MIN_FUNDS
-
-  end
-
-  it 'starts with an empty travel history' do
-    expect(subject.history).to eq []
   end
 
   describe '#start' do

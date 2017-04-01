@@ -6,11 +6,11 @@ class Oystercard
 
   DEFAULT_LIMIT = 90
   MIN_FUNDS = 1
-  FARE = 1
+  PENALTY = 6
 
-  def initialize
+  def initialize(trip = Journey.new)
     @balance = 0
-    @trip = Journey.new
+    @trip = trip
   end
 
   def top_up(amount)
@@ -26,16 +26,16 @@ class Oystercard
 
   def touch_out(station)
     penalty if !@trip.in_journey?
-    spend(FARE)
+    spend(trip.fare)
     @trip.end(station)
   end
 
   def overlimit
     @balance + @increase > DEFAULT_LIMIT
   end
-  
+
   def penalty
-    spend(6); fail 'You did not touch in'
+    spend(PENALTY); fail 'You did not touch in'
   end
   private
 
