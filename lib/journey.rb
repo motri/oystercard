@@ -11,7 +11,7 @@ class Journey
   end
 
   def start(station)
-    puts 'Forgot to tap out!' if @in_journey
+    print 'Forgot to tap out!' if @in_journey
     @in_journey = true
     @entry_station = station
     @journey = {@entry_station => nil}

@@ -15,6 +15,10 @@ describe Journey do
       card.top_up(@min); card.touch_in(station)
       expect(card.trip.in_journey).to eq true
     end
+    it 'notifies you if you forgot to touch out' do
+      card.top_up(@min); card.touch_in(station)
+      expect { card.touch_in(station) }.to output('Forgot to tap out!').to_stdout
+    end
     it 'sets entry_station' do
       card.top_up(@min); card.touch_in(station)
       expect(card.trip.entry_station).to eq station
