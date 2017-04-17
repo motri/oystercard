@@ -16,7 +16,7 @@ describe Oystercard do
 
     it 'raises an error when trying to exceed max balance' do
       message = "That exceeds the maximum balance"
-      expect{ subject.top_up 100 }.to raise_error message
+      expect{ subject.top_up Oystercard::MAX_BALANCE + 1 }.to raise_error message
     end
 
   end
