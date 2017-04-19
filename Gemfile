@@ -1,4 +1,6 @@
-source "https://rubygems.org" do
+source 'https://rubygems.org'
   ruby '2.4.0'
-  gem 'rspec', :group => [:development, :test]
-end
+  group :development, :test do
+    gem 'rspec'
+    gem 'rubocop'
+  end
