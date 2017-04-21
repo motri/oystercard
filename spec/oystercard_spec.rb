@@ -23,15 +23,8 @@ describe Oystercard do
 
   describe '#touch_in(station)' do
     station = 'abbeywood'
-
-
     it 'raises an error when insufficient funds' do
       expect { card.touch_in(station) }.to raise_error 'Insuficient funds'
-    end
-
-    it 'remembers the station' do
-      card.top_up(@min); card.touch_in(station)
-      expect(card.entry_station).to include(station)
     end
   end
 
@@ -39,9 +32,10 @@ describe Oystercard do
     enter = 'station'
     out = 'abbeywood'
 
-    it 'touches out' do
-      card.top_up(@min); card.touch_in(enter); card.touch_out(out)
-      expect(card).not_to be_in_journey
+    it 'charges penalty when not touched in' do
+      card.top_up(10)
+      expect { card.touch_out(out) }.to raise_error 'You did not touch in'
+      expect(card.balance).to eq (4) 
     end
 
     it 'charges minimum fare' do
@@ -49,29 +43,6 @@ describe Oystercard do
       expect { card.touch_out(out) }.to change { card.balance }.by -Oystercard::FARE
     end
 
-    it 'forgets the entry station' do
-      card.top_up(@min); card.touch_in(enter); card.touch_out(out)
-      expect(card.entry_station).to eq nil
-    end
-
-    it 'stores exit station' do
-      card.top_up(@min); card.touch_in(enter); card.touch_out(out)
-      expect(card.exit_station).to eq out
-    end
   end
 
-  describe '#in_journey?' do
-    it 'checks the journey status' do
-      expect(card.in_journey?).to eq(true).or(eq(false))
-    end
-  end
-
-  describe '#tracker' do
-    enter = 'Cannon Street'
-    out = 'Abbey Wood'
-    it 'creates a record of travel history' do
-      card.top_up(@min); card.touch_in(enter); card.touch_out(out)
-      expect(card.history).to eq [{ 'Cannon Street' => 'Abbey Wood' }]
-    end
-  end
 end
